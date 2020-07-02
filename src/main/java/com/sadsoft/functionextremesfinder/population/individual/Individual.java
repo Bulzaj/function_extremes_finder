@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface Individual {
 
-    double getFitness();
+    double getValue();
     int[] getGenes();
+    double getFitness();
 }
