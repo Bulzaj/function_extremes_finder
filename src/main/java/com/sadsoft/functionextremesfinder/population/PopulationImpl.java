@@ -1,13 +1,15 @@
 package com.sadsoft.functionextremesfinder.population;
 
 import com.sadsoft.functionextremesfinder.population.individual.Individual;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class PopulationImpl implements Population {
 
-    private List<Individual> population;
     private final PopulationInitializer initializer;
+    private List<Individual> population;
 
     public PopulationImpl(PopulationInitializer initializer) {
         this.initializer = initializer;
@@ -22,5 +24,14 @@ public class PopulationImpl implements Population {
     @Override
     public Individual getIndividual(int index) {
         return population.get(index);
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (Individual individual: population) {
+            result += individual.toString() + "\n";
+        }
+        return result;
     }
 }
