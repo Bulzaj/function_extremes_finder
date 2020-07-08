@@ -13,9 +13,11 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
 
     private static final Logger log = LoggerFactory.getLogger(GeneticAlgorithmServiceImpl.class);
     private final PopulationInitializer populationInitializer;
+    private final FitnessEvaluator fitnessEvaluator;
 
-    public GeneticAlgorithmServiceImpl(PopulationInitializer populationInitializer) {
+    public GeneticAlgorithmServiceImpl(PopulationInitializer populationInitializer, FitnessEvaluator fitnessEvaluator) {
         this.populationInitializer = populationInitializer;
+        this.fitnessEvaluator = fitnessEvaluator;
     }
 
     @Override
@@ -24,13 +26,8 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
         log.debug("Initializing population...");
         Population population = populationInitializer.initialize(requestDTO.getMaxRange(), requestDTO.getPopulationSize());
         log.debug("Counting fitness of individuals");
-        population
-                .getPopulation()
-                .stream()
-                .map(individual -> {
-                    individual.setFitness(0d);
-                    return individual;
-                });
+        fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
+        log.debug(population.toString());
         return null;
     }
 }

@@ -36,7 +36,7 @@ public class Individual  {
 
     @Override
     public String toString() {
-        return "Genes: " + Arrays.toString(genes) + " Value: " + getValue();
+        return "Genes: " + Arrays.toString(genes) + " Value: " + getValue() + " Fitness: " + getFitness();
     }
 
     private void validateGenes(int[] genes) {
