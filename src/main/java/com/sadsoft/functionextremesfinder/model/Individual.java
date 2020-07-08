@@ -1,6 +1,7 @@
 package com.sadsoft.functionextremesfinder.model;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Individual  {
 
@@ -56,5 +57,21 @@ public class Individual  {
             j++;
         }
         value = result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Individual that = (Individual) o;
+        return Double.compare(that.value, value) == 0 &&
+                Arrays.equals(genes, that.genes);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(value);
+        result = 31 * result + Arrays.hashCode(genes);
+        return result;
     }
 }
