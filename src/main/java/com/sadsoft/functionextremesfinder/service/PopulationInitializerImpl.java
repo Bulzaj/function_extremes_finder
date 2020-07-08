@@ -1,6 +1,5 @@
 package com.sadsoft.functionextremesfinder.service;
 
-import com.sadsoft.functionextremesfinder.properties.GeneticAlgorithmProperties;
 import com.sadsoft.functionextremesfinder.model.Individual;
 import com.sadsoft.functionextremesfinder.model.Population;
 import com.sadsoft.functionextremesfinder.until.RandomGenerator;
@@ -16,20 +15,15 @@ import java.util.List;
 public class PopulationInitializerImpl implements PopulationInitializer {
 
     private static final Logger log = LoggerFactory.getLogger(PopulationInitializerImpl.class);
-    private final GeneticAlgorithmProperties properties;
-
-    public PopulationInitializerImpl(GeneticAlgorithmProperties properties) {
-        this.properties = properties;
-    }
 
     @Override
-    public Population initialize() {
+    public Population initialize(int maxRange, int populationSize) {
         log.debug("Population initializer starts...");
         int genesLength = Integer
-                .toBinaryString(properties.getMaxRange())
+                .toBinaryString(maxRange)
                 .length();
         List<Individual> individuals = new ArrayList<>();
-        for (int i=0; i<properties.getPopulationSize(); i++) {
+        for (int i=0; i<populationSize; i++) {
             log.debug("Individual no.{} initializing", i);
             int[] genes = new int[genesLength];
             for (int j=0; j<genesLength; j++) {
