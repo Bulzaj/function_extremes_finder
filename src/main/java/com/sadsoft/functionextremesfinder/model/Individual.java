@@ -64,14 +64,11 @@ public class Individual  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Individual that = (Individual) o;
-        return Double.compare(that.value, value) == 0 &&
-                Arrays.equals(genes, that.genes);
+        return Arrays.equals(genes, that.genes);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(value);
-        result = 31 * result + Arrays.hashCode(genes);
-        return result;
+        return Arrays.hashCode(genes);
     }
 }
