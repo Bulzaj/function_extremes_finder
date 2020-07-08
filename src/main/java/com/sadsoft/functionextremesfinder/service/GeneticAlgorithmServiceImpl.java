@@ -2,6 +2,7 @@ package com.sadsoft.functionextremesfinder.service;
 
 import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmPropertiesRequestDTO;
 import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmResponseDTO;
+import com.sadsoft.functionextremesfinder.model.Individual;
 import com.sadsoft.functionextremesfinder.model.Population;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +22,21 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
     }
 
     @Override
-    public ResponseEntity<GeneticAlgorithmResponseDTO> run(GeneticAlgorithmPropertiesRequestDTO requestDTO) {
+    public GeneticAlgorithmResponseDTO run(GeneticAlgorithmPropertiesRequestDTO requestDTO) {
         log.debug("Algorithm starts...");
         log.debug("Initializing population...");
         Population population = populationInitializer.initialize(requestDTO.getMaxRange(), requestDTO.getPopulationSize());
-        log.debug("Counting fitness of individuals");
-        fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
-        log.debug(population.toString());
-        return null;
+        int i = 0;
+        int withoutChanges = 0;
+        Individual fittest;
+        while (i <= requestDTO.getMaxIterations()
+                && withoutChanges <= requestDTO.getMaxWithoutChanges()) {
+            //log.debug("Counting fitness for individuals...");
+            fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
+            log.debug(population.toString());
+            i++;
+        }
+
+        return new GeneticAlgorithmResponseDTO();
     }
 }

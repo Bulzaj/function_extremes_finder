@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface GeneticAlgorithmService {
 
-    ResponseEntity<GeneticAlgorithmResponseDTO> run(GeneticAlgorithmPropertiesRequestDTO requestDTO) ;
+    GeneticAlgorithmResponseDTO run(GeneticAlgorithmPropertiesRequestDTO requestDTO) ;
 }

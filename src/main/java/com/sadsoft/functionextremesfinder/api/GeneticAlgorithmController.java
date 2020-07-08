@@ -5,6 +5,7 @@ import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmResponseDTO;
 import com.sadsoft.functionextremesfinder.service.GeneticAlgorithmService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,6 @@ public class GeneticAlgorithmController {
 
     @PostMapping("/run")
     public ResponseEntity<GeneticAlgorithmResponseDTO> run(@RequestBody GeneticAlgorithmPropertiesRequestDTO request) {
-        return service.run(request);
+        return ResponseEntity.ok(service.run(request));
     };
 }
