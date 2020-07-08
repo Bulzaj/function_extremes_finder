@@ -1,4 +1,4 @@
-package com.sadsoft.functionextremesfinder.GeneticAlgorithm;
+package com.sadsoft.functionextremesfinder.properties;
 
 public interface GeneticAlgorithmProperties {
 

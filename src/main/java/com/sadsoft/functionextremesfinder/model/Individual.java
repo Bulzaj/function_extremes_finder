@@ -1,45 +1,42 @@
-package com.sadsoft.functionextremesfinder.population.individual;
+package com.sadsoft.functionextremesfinder.model;
 
 import java.util.Arrays;
 
-public class IndividualImpl implements Individual {
+public class Individual  {
 
     private int[] genes;
+    private double value;
     double fitness;
 
-    public IndividualImpl(int[] genes) {
+    public Individual(int[] genes) {
         validateGenes(genes);
         this.genes = genes;
         fitness = 0;
+        countValue();
     }
 
-    @Override
     public double getValue() {
-        double result = 0;
-        int j=0;
-        for (int i=genes.length-1; i>=0; i--) {
-            result += genes[i]*Math.pow(2, j);
-            j++;
-        }
-        return result;
+        return value;
     }
 
     public void setGenes(int[] genes) {
         this.genes = genes;
     }
 
-    @Override
     public int[] getGenes() {
         return genes;
     }
-
     public void setFitness(double fitness) {
         this.fitness = fitness;
     }
 
-    @Override
     public double getFitness() {
         return fitness;
+    }
+
+    @Override
+    public String toString() {
+        return "Genes: " + Arrays.toString(genes) + " Value: " + getValue();
     }
 
     private void validateGenes(int[] genes) {
@@ -51,8 +48,13 @@ public class IndividualImpl implements Individual {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Genes: " + Arrays.toString(genes) + " Value: " + getValue();
+    private void countValue() {
+        double result = 0;
+        int j=0;
+        for (int i=genes.length-1; i>=0; i--) {
+            result += genes[i]*Math.pow(2, j);
+            j++;
+        }
+        value = result;
     }
 }

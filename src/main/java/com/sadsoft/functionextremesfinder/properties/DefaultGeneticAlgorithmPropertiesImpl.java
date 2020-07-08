@@ -1,4 +1,4 @@
-package com.sadsoft.functionextremesfinder.GeneticAlgorithm;
+package com.sadsoft.functionextremesfinder.properties;
 
 import org.springframework.stereotype.Component;
 
@@ -28,5 +28,16 @@ public class DefaultGeneticAlgorithmPropertiesImpl implements GeneticAlgorithmPr
     @Override
     public int getIterationsCount() {
         return 1000;
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+                result += "[Function] " + getFunctionBody();
+                result += " [Min Range] " + getMinRange();
+                result += " [Max Range] " + getMaxRange();
+                result += " [Population Size] " + getPopulationSize();
+                result += " [Max iterations] " + getIterationsCount();
+        return  result;
     }
 }

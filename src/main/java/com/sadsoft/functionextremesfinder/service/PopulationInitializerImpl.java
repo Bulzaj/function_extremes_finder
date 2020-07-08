@@ -1,8 +1,8 @@
-package com.sadsoft.functionextremesfinder.population;
+package com.sadsoft.functionextremesfinder.service;
 
-import com.sadsoft.functionextremesfinder.GeneticAlgorithm.GeneticAlgorithmProperties;
-import com.sadsoft.functionextremesfinder.population.individual.Individual;
-import com.sadsoft.functionextremesfinder.population.individual.IndividualImpl;
+import com.sadsoft.functionextremesfinder.properties.GeneticAlgorithmProperties;
+import com.sadsoft.functionextremesfinder.model.Individual;
+import com.sadsoft.functionextremesfinder.model.Population;
 import com.sadsoft.functionextremesfinder.until.RandomGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +23,12 @@ public class PopulationInitializerImpl implements PopulationInitializer {
     }
 
     @Override
-    public List<Individual> initialize() {
+    public Population initialize() {
         log.debug("Population initializer starts...");
         int genesLength = Integer
                 .toBinaryString(properties.getMaxRange())
                 .length();
-        List<Individual> result = new ArrayList<>();
+        List<Individual> individuals = new ArrayList<>();
         for (int i=0; i<properties.getPopulationSize(); i++) {
             log.debug("Individual no.{} initializing", i);
             int[] genes = new int[genesLength];
@@ -36,10 +36,11 @@ public class PopulationInitializerImpl implements PopulationInitializer {
                 genes[j] = RandomGenerator.generateRandom(0,1);
             }
             log.debug("... with genes: {}", Arrays.toString(genes));
-            result.add(new IndividualImpl(genes));
+            individuals.add(new Individual(genes));
         }
-        log.debug("Population initializer stops...");
-        return result;
+        if (individuals.isEmpty()) throw new IllegalStateException("Individual list is empty");
+        log.debug("Population initializer stop...");
+        return new Population(individuals);
     }
 
 
