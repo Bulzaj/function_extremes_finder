@@ -6,12 +6,16 @@ public class GeneticAlgorithmPropertiesRequestDTO {
     private int minRange;
     private int maxRange;
     private int populationSize;
+    private int maxIterations;
+    private int maxWithoutChanges;
 
-    public GeneticAlgorithmPropertiesRequestDTO(String functionBody, int minRange, int maxRange, int populationSize) {
+    public GeneticAlgorithmPropertiesRequestDTO(String functionBody, int minRange, int maxRange, int populationSize, int maxIterations, int maxWithoutChanges) {
         this.functionBody = functionBody;
         this.minRange = minRange;
         this.maxRange = maxRange;
         this.populationSize = populationSize;
+        this.maxIterations = maxIterations;
+        this.maxWithoutChanges = maxWithoutChanges;
     }
 
     public GeneticAlgorithmPropertiesRequestDTO() {
@@ -47,5 +51,21 @@ public class GeneticAlgorithmPropertiesRequestDTO {
 
     public void setPopulationSize(int populationSize) {
         this.populationSize = populationSize;
+    }
+
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    public int getMaxWithoutChanges() {
+        return maxWithoutChanges;
+    }
+
+    public void setMaxWithoutChanges(int maxWithoutChanges) {
+        this.maxWithoutChanges = maxWithoutChanges;
     }
 }
