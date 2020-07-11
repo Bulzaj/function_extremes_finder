@@ -1,4 +1,4 @@
-package com.sadsoft.functionextremesfinder.service;
+package com.sadsoft.functionextremesfinder.service.genetic_algorithm;
 
 import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmPropertiesRequestDTO;
 import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmResponseDTO;
