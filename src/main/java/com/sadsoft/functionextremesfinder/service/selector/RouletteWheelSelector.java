@@ -1,6 +1,5 @@
-package com.sadsoft.functionextremesfinder.service.genetic_algorithm.selector;
+package com.sadsoft.functionextremesfinder.service.selector;
 
-import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmPropertiesRequestDTO;
 import com.sadsoft.functionextremesfinder.model.Individual;
 import com.sadsoft.functionextremesfinder.model.Population;
 import com.sadsoft.functionextremesfinder.until.Util;
@@ -8,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 

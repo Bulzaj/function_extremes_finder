@@ -1,4 +1,4 @@
-package com.sadsoft.functionextremesfinder.service.genetic_algorithm.fitness_evaluator;
+package com.sadsoft.functionextremesfinder.service.fitness_evaluator;
 
 import com.sadsoft.functionextremesfinder.model.Individual;
 import com.sadsoft.functionextremesfinder.model.Population;

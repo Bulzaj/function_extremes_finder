@@ -1,4 +1,4 @@
-package com.sadsoft.functionextremesfinder.service.genetic_algorithm.population_initializer;
+package com.sadsoft.functionextremesfinder.service.population_initializer;
 
 import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmPropertiesRequestDTO;
 import com.sadsoft.functionextremesfinder.model.Population;

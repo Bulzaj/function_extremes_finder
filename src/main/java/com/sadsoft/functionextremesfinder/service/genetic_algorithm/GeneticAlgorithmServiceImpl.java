@@ -1,15 +1,14 @@
 package com.sadsoft.functionextremesfinder.service.genetic_algorithm;
 
 import com.sadsoft.functionextremesfinder.model.*;
-import com.sadsoft.functionextremesfinder.service.genetic_algorithm.fitness_evaluator.FitnessEvaluator;
-import com.sadsoft.functionextremesfinder.service.genetic_algorithm.population_initializer.PopulationInitializer;
-import com.sadsoft.functionextremesfinder.service.genetic_algorithm.selector.Selector;
+import com.sadsoft.functionextremesfinder.service.fitness_evaluator.FitnessEvaluator;
+import com.sadsoft.functionextremesfinder.service.population_initializer.PopulationInitializer;
+import com.sadsoft.functionextremesfinder.service.selector.Selector;
 import com.sadsoft.functionextremesfinder.until.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 
