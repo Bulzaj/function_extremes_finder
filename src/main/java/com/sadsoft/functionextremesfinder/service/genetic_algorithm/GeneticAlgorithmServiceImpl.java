@@ -21,7 +21,6 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
     private final FitnessEvaluator fitnessEvaluator;
     private final Selector selector;
 
-    private final DecimalFormat decimalFormat = new DecimalFormat("#.###");
     private  Individual fittest = null;
     private Individual prevFittest = null;
     private StopReason stopReason = StopReason.MAX_ITERATIONS;
