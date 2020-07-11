@@ -12,14 +12,15 @@ public class SelectorFactory {
         switch (selectorType) {
             case ROULETTE_WHEEL:
                 selector = new RouletteWheelSelector();
-                break;
+                return this;
             case TOURNAMENT:
-                break;
+                return this;
             case RANK:
-                break;
-            default: selector = new RouletteWheelSelector();
-        };
-        return this;
+                return this;
+            default:
+                selector = new RouletteWheelSelector();
+                return this;
+        }
     }
 
     public Selector get() {

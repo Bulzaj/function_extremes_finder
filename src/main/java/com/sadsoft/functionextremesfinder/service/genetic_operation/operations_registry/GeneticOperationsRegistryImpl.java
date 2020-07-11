@@ -1,21 +1,22 @@
 package com.sadsoft.functionextremesfinder.service.genetic_operation.operations_registry;
 
+import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmPropertiesRequestDTO;
 import com.sadsoft.functionextremesfinder.model.Population;
 import com.sadsoft.functionextremesfinder.service.genetic_operation.GeneticOperator;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
 public class GeneticOperationsRegistryImpl implements GeneticOperationsRegistry {
 
     private Map<String, GeneticOperator> operationsRegistry;
     private final Population population;
+    private final GeneticAlgorithmPropertiesRequestDTO requestDTO;
 
-    public GeneticOperationsRegistryImpl(Population population) {
+    public GeneticOperationsRegistryImpl(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO) {
         this.population = population;
         operationsRegistry = new HashMap<>();
+        this.requestDTO = requestDTO;
     }
 
     @Override
@@ -29,14 +30,14 @@ public class GeneticOperationsRegistryImpl implements GeneticOperationsRegistry 
     }
 
     public void runOperation(String operationName) {
-        operationsRegistry.get(operationName).doOperation(population);
+        operationsRegistry.get(operationName).doOperation(population, requestDTO);
     }
 
     @Override
     public void runOperations() {
         for (Map.Entry me : operationsRegistry.entrySet()) {
             GeneticOperator operator = (GeneticOperator)me.getValue();
-            operator.doOperation(population);
+            operator.doOperation(population, requestDTO);
         }
     }
 }

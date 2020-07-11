@@ -2,8 +2,11 @@ package com.sadsoft.functionextremesfinder.service.genetic_algorithm;
 
 import com.sadsoft.functionextremesfinder.model.*;
 import com.sadsoft.functionextremesfinder.service.fitness_evaluator.FitnessEvaluator;
+import com.sadsoft.functionextremesfinder.service.genetic_operation.operations_registry.GeneticOperationsRegistry;
+import com.sadsoft.functionextremesfinder.service.genetic_operation.operations_registry.GeneticOperationsRegistryImpl;
 import com.sadsoft.functionextremesfinder.service.population_initializer.PopulationInitializer;
 import com.sadsoft.functionextremesfinder.service.selector.Selector;
+import com.sadsoft.functionextremesfinder.service.selector.SelectorFactory;
 import com.sadsoft.functionextremesfinder.until.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +21,20 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
     private static final Logger log = LoggerFactory.getLogger(GeneticAlgorithmServiceImpl.class);
     private final PopulationInitializer populationInitializer;
     private final FitnessEvaluator fitnessEvaluator;
-    private final Selector selector;
+    private final SelectorFactory factory;
+    private  Selector selector;
+    private GeneticOperationsRegistry registry;
 
-    private  Individual fittest = null;
+    Population population;
+    private Individual fittest = null;
     private Individual prevFittest = null;
     private StopReason stopReason = StopReason.MAX_ITERATIONS;
 
-    public GeneticAlgorithmServiceImpl(PopulationInitializer populationInitializer, FitnessEvaluator fitnessEvaluator, Selector selector) {
+    public GeneticAlgorithmServiceImpl(PopulationInitializer populationInitializer,
+                                       FitnessEvaluator fitnessEvaluator) {
         this.populationInitializer = populationInitializer;
         this.fitnessEvaluator = fitnessEvaluator;
-        this.selector = selector;
+        factory = new SelectorFactory();
     }
 
     @Override
@@ -35,7 +42,9 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
         validateAlgorithmProperties(requestDTO);
         log.debug("Algorithm starts...");
         log.debug("Initializing population...");
-        Population population = populationInitializer.initialize(requestDTO);
+        population = populationInitializer.initialize(requestDTO);
+        selector = factory.build(requestDTO.getSelectorType()).get();
+        registry = new GeneticOperationsRegistryImpl(population, requestDTO);
         int i = 0;
         int withoutChanges = 0;
 
