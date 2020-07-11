@@ -28,7 +28,7 @@ public class PopulationInitializerImpl implements PopulationInitializer {
             for (int j=0; j<genesLength; j++) {
                 genes[j] = Util.generateRandom(0,1);
             }
-            double x = countXValue(genes);
+            int x = countXValue(genes);
             Individual individual = new Individual();
             individual.setGenes(genes);
             individual.setX(x);
@@ -41,8 +41,8 @@ public class PopulationInitializerImpl implements PopulationInitializer {
         return new Population(individuals);
     }
 
-    private double countXValue(int[] genes) {
-        double result = 0;
+    private int countXValue(int[] genes) {
+        int result = 0;
         int j=0;
         for (int i=genes.length-1; i>=0; i--) {
             result += genes[i]*Math.pow(2, j);

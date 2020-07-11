@@ -5,9 +5,9 @@ import java.util.Arrays;
 public class Individual  {
 
     private int[] genes;
-    private double x;
-    private double value;
-    private double fitness;
+    private int x;
+    private float value;
+    private float fitness;
 
     public int[] getGenes() {
         return genes;
@@ -17,33 +17,33 @@ public class Individual  {
         this.genes = genes;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public double getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(float value) {
         this.value = value;
     }
 
-    public double getFitness() {
+    public float getFitness() {
         return fitness;
     }
 
-    public void setFitness(double fitness) {
+    public void setFitness(float fitness) {
         this.fitness = fitness;
     }
 
     @Override
     public String toString() {
-        return "Genes: " + Arrays.toString(genes) + " x: " + getValue() + " Value: " + getValue() + " Fitness: " + getFitness();
+        return "Genes: " + Arrays.toString(genes) + " x: " + getX() + " Value: " + getValue() + " Fitness: " + getFitness();
     }
 
     private void validateGenes(int[] genes) {
