@@ -58,7 +58,7 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
 
         while (i <= requestDTO.getMaxIterations()
                 && withoutChanges <= requestDTO.getMaxWithoutChanges()) {
-            validatePopulation(population);
+            validatePopulation(population, requestDTO);
             fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
             Util.logPopulation(population, log);
             this.prevFittest = fittest;
@@ -84,12 +84,15 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
                 i,
                 stopReason);
     }
-    void validatePopulation(Population population) {
+    void validatePopulation(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO) {
         if (population.getPopulation() == null) {
             throw new IllegalStateException("Population can't be null");
         }
         if (population.getPopulation().isEmpty()) {
             throw new IllegalStateException("Population can't be empty");
+        }
+        if (population.getPopulation().size() != requestDTO.getPopulationSize()) {
+            throw new IllegalStateException("Wrong population size");
         }
     }
 

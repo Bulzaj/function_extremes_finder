@@ -13,6 +13,9 @@ public class SelectorFactory {
             case ROULETTE_WHEEL:
                 selector = new RouletteWheelSelector();
                 return this;
+            case ROULETTE_WHEEL+"v2":
+                selector = new RouletteSelectorImpl();
+                return this;
             case TOURNAMENT:
                 return this;
             case RANK:

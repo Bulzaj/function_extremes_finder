@@ -23,7 +23,7 @@ public class FitnessEvaluatorImpl implements FitnessEvaluator {
         population
                 .getPopulation()
                 .stream()
-                .peek(individual -> individual.setFitness(computeFitness(individual.getX(), functionBody)+0.1f))
+                .peek(individual -> individual.setFitness(computeFitness(individual.getX(), functionBody)+1))
                 .collect(Collectors.toList());
         lestFitIndividual = Collections
                 .min(population.getPopulation(),
@@ -37,7 +37,7 @@ public class FitnessEvaluatorImpl implements FitnessEvaluator {
                     .stream()
                     .map(individual -> {
                         Individual newIndividual = individual;
-                        newIndividual.setFitness(individual.getFitness()+fitness+0.1f);
+                        newIndividual.setFitness(individual.getFitness()+fitness);
                         return newIndividual;
                     })
                     .collect(Collectors.toList());
