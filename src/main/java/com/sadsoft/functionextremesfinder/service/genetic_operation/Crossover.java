@@ -19,7 +19,6 @@ public class Crossover implements GeneticOperator {
 
     @Override
     public void doOperation(Population population, GeneticAlgorithmPropertiesRequestDTO request) {
-        log.debug("[Crossover] Crossover called...");
         int crossoverChance = Util.generateRandom(0, 100);
         if (crossoverChance <= request.getCrossoverChance()) {
             int maxRange = Util.getRangeLength(request.getMaxRange());

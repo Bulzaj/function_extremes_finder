@@ -3,11 +3,11 @@ package com.sadsoft.functionextremesfinder.model;
 public class GeneticAlgorithmResponseDTO {
 
     private int x;
-    private double xValue;
+    private String xValue;
     private int iterations;
     private StopReason stopReason;
 
-    public GeneticAlgorithmResponseDTO(int x, double xValue, int iterations, StopReason stopReason) {
+    public GeneticAlgorithmResponseDTO(int x, String xValue, int iterations, StopReason stopReason) {
         this.x = x;
         this.xValue = xValue;
         this.iterations = iterations;
@@ -22,11 +22,11 @@ public class GeneticAlgorithmResponseDTO {
         this.x = x;
     }
 
-    public double getxValue() {
+    public String getxValue() {
         return xValue;
     }
 
-    public void setxValue(double xValue) {
+    public void setxValue(String xValue) {
         this.xValue = xValue;
     }
 

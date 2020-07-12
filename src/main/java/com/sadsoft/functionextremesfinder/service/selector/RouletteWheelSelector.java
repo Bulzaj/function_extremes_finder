@@ -33,18 +33,19 @@ public class RouletteWheelSelector implements Selector {
         Individual selectedIndividual = null;
         int populationSize = population.getPopulation().size();
         for (int i=0; i<rouletteWheel.length; i++) {
-            float randomFloat = Util.generateRandom(0f, 100f);
-            if (randomFloat <= rouletteWheel[0]) {
+            int random = Util.generateRandom(0, 100);
+            log.debug("[Roulette wheel] Generated random: {}",random);
+            if (random <= rouletteWheel[0]) {
                 selectedIndividual = population.getPopulation().get(0);
-                log.debug("[Roulette wheel] Generated random: {} => Selected individual: {}", randomFloat, rouletteWheel[0]);
-            } else if (randomFloat > rouletteWheel[populationSize-2] && randomFloat <= 100f) {
+                log.debug("[Roulette wheel] Generated random: {} => Selected individual: {}", random, rouletteWheel[0]);
+            } else if (random > rouletteWheel[populationSize-2] && random <= 100f) {
                 selectedIndividual = population.getPopulation().get(populationSize-1);
-                log.debug("[Roulette wheel] Generated random: {} => Selected individual: {}", randomFloat, rouletteWheel[populationSize-1]);
-            } else if (randomFloat > rouletteWheel[0] && randomFloat < rouletteWheel[populationSize-2]) {
+                log.debug("[Roulette wheel] Generated random: {} => Selected individual: {}", random, rouletteWheel[populationSize-1]);
+            } else if (random > rouletteWheel[0] && random < rouletteWheel[populationSize-2]) {
                 for (int j=1; j<=populationSize-2; j++) {
-                    if (randomFloat > rouletteWheel[j-1] && randomFloat <= rouletteWheel[j]) {
+                    if (random > rouletteWheel[j-1] && random <= rouletteWheel[j]) {
                         selectedIndividual = population.getPopulation().get(j);
-                        log.debug("[Roulette wheel] Generated random: {} => Selected individual: {}", randomFloat, rouletteWheel[j]);
+                        log.debug("[Roulette wheel] Generated random: {} => Selected individual: {}", random, rouletteWheel[j]);
                     }
                 }
             } else throw new RuntimeException("Somethings went wrong");

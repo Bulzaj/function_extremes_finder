@@ -3,6 +3,7 @@ package com.sadsoft.functionextremesfinder.service.genetic_algorithm;
 import com.sadsoft.functionextremesfinder.model.*;
 import com.sadsoft.functionextremesfinder.service.fitness_evaluator.FitnessEvaluator;
 import com.sadsoft.functionextremesfinder.service.genetic_operation.Crossover;
+import com.sadsoft.functionextremesfinder.service.genetic_operation.Mutation;
 import com.sadsoft.functionextremesfinder.service.genetic_operation.operations_registry.GeneticOperationsRegistry;
 import com.sadsoft.functionextremesfinder.service.genetic_operation.operations_registry.GeneticOperationsRegistryImpl;
 import com.sadsoft.functionextremesfinder.service.population_initializer.PopulationInitializer;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -20,6 +22,7 @@ import java.util.Comparator;
 public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
 
     private static final Logger log = LoggerFactory.getLogger(GeneticAlgorithmServiceImpl.class);
+    private final DecimalFormat df;
     private final PopulationInitializer populationInitializer;
     private final FitnessEvaluator fitnessEvaluator;
     private final SelectorFactory factory;
@@ -33,6 +36,7 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
 
     public GeneticAlgorithmServiceImpl(PopulationInitializer populationInitializer,
                                        FitnessEvaluator fitnessEvaluator) {
+         df = new DecimalFormat("0.00");
         this.populationInitializer = populationInitializer;
         this.fitnessEvaluator = fitnessEvaluator;
         factory = new SelectorFactory();
@@ -41,25 +45,26 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
     @Override
     public GeneticAlgorithmResponseDTO run(GeneticAlgorithmPropertiesRequestDTO requestDTO) {
         validateAlgorithmProperties(requestDTO);
-        log.debug("Algorithm starts...");
-        log.debug("Initializing population...");
+        log.debug("[Genetic algorithm] Algorithm starts...");
+        log.debug("[Genetic Algorithm] Initializing population...");
         population = populationInitializer.initialize(requestDTO);
         selector = factory.build(requestDTO.getSelectorType()).get();
         registry = new GeneticOperationsRegistryImpl(population, requestDTO);
         int i = 0;
         int withoutChanges = 0;
 
-        registry.addOperation("crossover", new Crossover());
+        registry.addOperation("2mutation", new Mutation());
+        registry.addOperation("1crossover", new Crossover());
 
         while (i <= requestDTO.getMaxIterations()
                 && withoutChanges <= requestDTO.getMaxWithoutChanges()) {
             validatePopulation(population);
             fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
+            Util.logPopulation(population, log);
             this.prevFittest = fittest;
             this.fittest = Collections.max(population.getPopulation(),
                     Comparator.comparing(Individual::getValue));
             selector.select(population);
-//            Util.logPopulation(population, log);
             registry.runOperations();
 
             if (fittest == prevFittest) withoutChanges++;
@@ -72,9 +77,10 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
             log.debug("====================================================================================");
             log.debug("");
         }
+        DecimalFormat df = new DecimalFormat("#.##");
         return new GeneticAlgorithmResponseDTO(
                 this.fittest.getX(),
-                this.fittest.getValue(),
+                df.format(this.fittest.getValue()),
                 i,
                 stopReason);
     }
