@@ -5,6 +5,8 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.slf4j.Logger;
 
+import java.util.Arrays;
+
 public class Util {
 
     public static int generateRandom(int min, int max) {
@@ -25,7 +27,22 @@ public class Util {
     }
 
     public static void logPopulation(Population population, Logger log) {
-        log.info("Population:");
-        population.getPopulation().forEach(individual -> log.info(individual.toString()));
+        log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        population.getPopulation().forEach(individual -> log.info("||| [Population] {} |||", individual.toString()));
+        log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    }
+
+    public static int getRangeLength(int range) {
+        return Integer
+                .toBinaryString(range)
+                .length();
+    }
+
+    public static int computeXValue(int[] genes) {
+        String tmpGenes = "";
+        for (int gene : genes) {
+            tmpGenes += String.valueOf(gene);
+        }
+        return Integer.parseInt(tmpGenes,2);
     }
 }
