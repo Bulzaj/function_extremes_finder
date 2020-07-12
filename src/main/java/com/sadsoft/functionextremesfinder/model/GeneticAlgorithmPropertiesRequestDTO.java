@@ -9,8 +9,10 @@ public class GeneticAlgorithmPropertiesRequestDTO {
     private int maxIterations;
     private int maxWithoutChanges;
     private String selectorType;
+    private int crossoverChance;
+    private int mutationChance;
 
-    public GeneticAlgorithmPropertiesRequestDTO(String functionBody, int minRange, int maxRange, int populationSize, int maxIterations, int maxWithoutChanges, String selectorType) {
+    public GeneticAlgorithmPropertiesRequestDTO(String functionBody, int minRange, int maxRange, int populationSize, int maxIterations, int maxWithoutChanges, String selectorType, int crossoverChance, int mutationChance) {
         this.functionBody = functionBody;
         this.minRange = minRange;
         this.maxRange = maxRange;
@@ -18,6 +20,8 @@ public class GeneticAlgorithmPropertiesRequestDTO {
         this.maxIterations = maxIterations;
         this.maxWithoutChanges = maxWithoutChanges;
         this.selectorType = selectorType;
+        this.crossoverChance = crossoverChance;
+        this.mutationChance = mutationChance;
     }
 
     public GeneticAlgorithmPropertiesRequestDTO() {
@@ -77,5 +81,21 @@ public class GeneticAlgorithmPropertiesRequestDTO {
 
     public void setSelectorType(String selectorType) {
         this.selectorType = selectorType;
+    }
+
+    public int getCrossoverChance() {
+        return crossoverChance;
+    }
+
+    public void setCrossoverChance(int crossoverChance) {
+        this.crossoverChance = crossoverChance;
+    }
+
+    public int getMutationChance() {
+        return mutationChance;
+    }
+
+    public void setMutationChance(int mutationChance) {
+        this.mutationChance = mutationChance;
     }
 }

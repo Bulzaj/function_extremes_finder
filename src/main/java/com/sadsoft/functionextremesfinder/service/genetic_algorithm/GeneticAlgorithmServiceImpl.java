@@ -2,6 +2,7 @@ package com.sadsoft.functionextremesfinder.service.genetic_algorithm;
 
 import com.sadsoft.functionextremesfinder.model.*;
 import com.sadsoft.functionextremesfinder.service.fitness_evaluator.FitnessEvaluator;
+import com.sadsoft.functionextremesfinder.service.genetic_operation.Crossover;
 import com.sadsoft.functionextremesfinder.service.genetic_operation.operations_registry.GeneticOperationsRegistry;
 import com.sadsoft.functionextremesfinder.service.genetic_operation.operations_registry.GeneticOperationsRegistryImpl;
 import com.sadsoft.functionextremesfinder.service.population_initializer.PopulationInitializer;
@@ -48,19 +49,24 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
         int i = 0;
         int withoutChanges = 0;
 
+        registry.addOperation("crossover", new Crossover());
+
         while (i <= requestDTO.getMaxIterations()
                 && withoutChanges <= requestDTO.getMaxWithoutChanges()) {
             validatePopulation(population);
-            Util.logPopulation(population, log);
             fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
             this.prevFittest = fittest;
             this.fittest = Collections.max(population.getPopulation(),
                     Comparator.comparing(Individual::getValue));
             selector.select(population);
+//            Util.logPopulation(population, log);
+            registry.runOperations();
+
             if (fittest == prevFittest) withoutChanges++;
             else withoutChanges = 0;
             i++;
             if (i == requestDTO.getMaxWithoutChanges()) stopReason=StopReason.MAX_WITHOUT_CHANGES;
+
             log.debug("[Genetic algorithm] Fittest individual: {} appears {} times", fittest.toString(), withoutChanges);
             log.debug("[Genetic algorithm] Iterations: {}", i);
             log.debug("====================================================================================");
