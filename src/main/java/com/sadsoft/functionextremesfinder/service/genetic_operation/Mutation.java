@@ -21,7 +21,6 @@ public class Mutation implements GeneticOperator {
     public void doOperation(Population population, GeneticAlgorithmPropertiesRequestDTO request) {
 
         log.debug("[Mutation] Mutation starts...");
-
         for (int i=0; i<population.getPopulation().length; i++) {
             int mutationChance = Util.generateRandom(0, 100);
             if (mutationChance <= request.getMutationChance()) {

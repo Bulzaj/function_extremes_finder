@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -26,17 +27,18 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
     private final PopulationInitializer populationInitializer;
     private final FitnessEvaluator fitnessEvaluator;
     private final SelectorFactory factory;
-    private  Selector selector;
+    private Selector selector;
     private GeneticOperationsRegistry registry;
 
-    Population population;
+    private Population population;
     private Individual fittest = null;
     private Individual prevFittest = null;
     private StopReason stopReason = StopReason.MAX_ITERATIONS;
 
     public GeneticAlgorithmServiceImpl(PopulationInitializer populationInitializer,
                                        FitnessEvaluator fitnessEvaluator) {
-         df = new DecimalFormat("0.00");
+        population = new Population();
+        df = new DecimalFormat("0.00");
         this.populationInitializer = populationInitializer;
         this.fitnessEvaluator = fitnessEvaluator;
         factory = new SelectorFactory();
@@ -44,39 +46,52 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
 
     @Override
     public GeneticAlgorithmResponseDTO run(GeneticAlgorithmPropertiesRequestDTO requestDTO) {
+
         validateAlgorithmProperties(requestDTO);
+
         log.debug("[Genetic algorithm] Algorithm starts...");
-        log.debug("[Genetic Algorithm] Initializing population...");
-        population = populationInitializer.initialize(requestDTO);
+
+        populationInitializer.initialize(population, requestDTO);
+
         selector = factory.build(requestDTO.getSelectorType()).get();
         registry = new GeneticOperationsRegistryImpl(population, requestDTO);
-        int i = 0;
-        int withoutChanges = 0;
 
         registry.addOperation("2mutation", new Mutation());
-        //registry.addOperation("1crossover", new Crossover());
+//        registry.addOperation("1crossover", new Crossover());
 
-        while (i <= requestDTO.getMaxIterations()
-                && withoutChanges <= requestDTO.getMaxWithoutChanges()) {
+        int i = 0;
+        int withoutChanges = 0;
+        while (i < requestDTO.getMaxIterations() && withoutChanges < requestDTO.getMaxWithoutChanges()) {
             validatePopulation(population, requestDTO);
-            fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
-//            Util.logPopulation(population, log);
-            this.prevFittest = fittest;
-            this.fittest = Collections.max(population.getPopulation(),
-                    Comparator.comparing(Individual::getValue));
+
+            fitnessEvaluator.countFitness(population, requestDTO);
+
             if (fittest == prevFittest) withoutChanges++;
             else withoutChanges = 0;
+
+            this.prevFittest = fittest;
+            this.fittest =Util.getFittest(population);
+
             i++;
             if (i == requestDTO.getMaxWithoutChanges()) stopReason=StopReason.MAX_WITHOUT_CHANGES;
 
-            selector.select(population);
-            registry.runOperations();
-            Util.updatePopulation(population, requestDTO);
             Util.logPopulation(population, log);
+
+            selector.select(population, requestDTO);
+
+            Util.logPopulation(population, log);
+
+            registry.runOperations();
+
+            Util.logPopulation(population, log);
+
             log.debug("[Genetic algorithm] Fittest individual: {} appears {} times", fittest.toString(), withoutChanges);
             log.debug("[Genetic algorithm] Iterations: {}", i);
             log.debug("====================================================================================");
             log.debug("");
+        }
+        if (i == requestDTO.getMaxIterations()) {
+            stopReason = StopReason.MAX_ITERATIONS;
         }
         DecimalFormat df = new DecimalFormat("#.##");
         return new GeneticAlgorithmResponseDTO(
@@ -89,10 +104,7 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
         if (population.getPopulation() == null) {
             throw new IllegalStateException("Population can't be null");
         }
-        if (population.getPopulation().isEmpty()) {
-            throw new IllegalStateException("Population can't be empty");
-        }
-        if (population.getPopulation().size() != requestDTO.getPopulationSize()) {
+        if (population.getPopulation().length != requestDTO.getPopulationSize()) {
             throw new IllegalStateException("Wrong population size");
         }
     }

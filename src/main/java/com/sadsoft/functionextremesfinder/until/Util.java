@@ -37,7 +37,7 @@ public class Util {
         int index=0;
         log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         for (Individual individual : population.getPopulation()) {
-            log.info("||| [Population] {} {}",index, individual.toString());
+            log.info("||| [Population] {} {} {}",index, individual.toString(), individual.hashCode());
             index++;
         }
         log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
