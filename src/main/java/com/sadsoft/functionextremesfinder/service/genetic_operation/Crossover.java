@@ -19,15 +19,16 @@ public class Crossover implements GeneticOperator {
 
     @Override
     public void doOperation(Population population, GeneticAlgorithmPropertiesRequestDTO request) {
+        log.debug("[Crossover] Crossover starts...");
         int crossoverChance = Util.generateRandom(0, 100);
         if (crossoverChance <= request.getCrossoverChance()) {
             int maxRange = Util.getRangeLength(request.getMaxRange());
             int arrSize = population.getPopulation().get(0).getGenes().length;
-            log.debug("[Crossover] Crossover starts...");
-            log.debug("[Crossover] Max range: {}", maxRange);
+//            log.debug("[Crossover] Crossover starts...");
+//            log.debug("[Crossover] Max range: {}", maxRange);
             int locus = Util.generateRandom(1, maxRange - 1);
-            log.debug("[Crossover] Generated locus: {}", locus);
-            log.debug("[Crossover] Iterations count: {}", (int)population.getPopulation().size()/2);
+//            log.debug("[Crossover] Generated locus: {}", locus);
+//            log.debug("[Crossover] Iterations count: {}", (int)population.getPopulation().size()/2);
             int arrSizeCut;
             if (population.getPopulation().size()%2==0) arrSizeCut = 1;
             else arrSizeCut = 2;
@@ -43,20 +44,20 @@ public class Crossover implements GeneticOperator {
                         genes2[j] = population.getPopulation().get(i+1).getGenes()[j];
                     }
                 }
-                log.debug("[Crossover] 1 {} => {}",
-                        Arrays.toString(population.getPopulation().get(i).getGenes()),
-                        Arrays.toString(genes1));
-                log.debug("[Crossover] 2 {} => {}",
-                        Arrays.toString(population.getPopulation().get(i+1).getGenes()),
-                        Arrays.toString(genes2));
-                population
-                        .getPopulation()
-                        .get(i)
-                        .setGenes(genes1);
-                population
-                        .getPopulation()
-                        .get(i+1)
-                        .setGenes(genes2);
+//                log.debug("[Crossover] 1 {} => {}",
+//                        Arrays.toString(population.getPopulation().get(i).getGenes()),
+//                        Arrays.toString(genes1));
+//                log.debug("[Crossover] 2 {} => {}",
+//                        Arrays.toString(population.getPopulation().get(i+1).getGenes()),
+//                        Arrays.toString(genes2));
+//                population
+//                        .getPopulation()
+//                        .get(i)
+//                        .setGenes(genes1);
+//                population
+//                        .getPopulation()
+//                        .get(i+1)
+//                        .setGenes(genes2);
             }
             population
                     .getPopulation()
@@ -68,5 +69,6 @@ public class Crossover implements GeneticOperator {
                         return tmp;
                     }).collect(Collectors.toList());
         }
+        log.debug("[Crossover] Crossover stop...");
     }
 }

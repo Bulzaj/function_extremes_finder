@@ -54,24 +54,25 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
         int withoutChanges = 0;
 
         registry.addOperation("2mutation", new Mutation());
-        registry.addOperation("1crossover", new Crossover());
+        //registry.addOperation("1crossover", new Crossover());
 
         while (i <= requestDTO.getMaxIterations()
                 && withoutChanges <= requestDTO.getMaxWithoutChanges()) {
             validatePopulation(population, requestDTO);
             fitnessEvaluator.countFitness(population, requestDTO.getFunctionBody());
-            Util.logPopulation(population, log);
+//            Util.logPopulation(population, log);
             this.prevFittest = fittest;
             this.fittest = Collections.max(population.getPopulation(),
                     Comparator.comparing(Individual::getValue));
-            selector.select(population);
-            registry.runOperations();
-
             if (fittest == prevFittest) withoutChanges++;
             else withoutChanges = 0;
             i++;
             if (i == requestDTO.getMaxWithoutChanges()) stopReason=StopReason.MAX_WITHOUT_CHANGES;
 
+            selector.select(population);
+            registry.runOperations();
+            Util.updatePopulation(population, requestDTO);
+            Util.logPopulation(population, log);
             log.debug("[Genetic algorithm] Fittest individual: {} appears {} times", fittest.toString(), withoutChanges);
             log.debug("[Genetic algorithm] Iterations: {}", i);
             log.debug("====================================================================================");

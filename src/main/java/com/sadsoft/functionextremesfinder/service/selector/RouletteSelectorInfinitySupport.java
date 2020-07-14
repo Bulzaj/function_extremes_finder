@@ -12,14 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RouletteSelectorImpl implements Selector {
-
-    private static final Logger log = LoggerFactory.getLogger(RouletteSelectorImpl.class);
-    private final DecimalFormat df = new DecimalFormat("#.##");
+public class RouletteSelectorInfinitySupport implements Selector {
 
     @Override
     public void select(Population population) {
-        log.debug("[Roulette wheel] Roulette wheel starts...");
         List<Individual> newPopulation = new ArrayList<>();
         float maxFitness = 0;
         for (Individual individual: population.getPopulation()) {
@@ -34,11 +30,6 @@ public class RouletteSelectorImpl implements Selector {
                 upperBand += individual.getFitness();
                 if (random > (lowerBand/maxFitness)*100 && random <= (upperBand/maxFitness)*100) {
                     newPopulation.add(individual);
-                    log.debug("[Roulette wheel] {} < {} < {} Selected individual: {}",
-                            df.format((lowerBand/maxFitness)*100),
-                            random,
-                            df.format((upperBand/maxFitness)*100),
-                            individual);
                 }
                 lowerBand = upperBand;
             }

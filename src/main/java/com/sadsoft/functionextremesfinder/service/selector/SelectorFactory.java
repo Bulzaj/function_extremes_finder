@@ -3,6 +3,7 @@ package com.sadsoft.functionextremesfinder.service.selector;
 public class SelectorFactory {
 
     private static final String ROULETTE_WHEEL = "ROULETTE_WHEEL";
+    private static final String ROULETTE_WHEEL_INFINITY_SUPP = "ROULETTE_WHEEL_INFINITY_SUPP";
     private static final String TOURNAMENT = "TOURNAMENT";
     private static final String RANK = "RANK";
 
@@ -13,8 +14,8 @@ public class SelectorFactory {
             case ROULETTE_WHEEL:
                 selector = new RouletteWheelSelector();
                 return this;
-            case ROULETTE_WHEEL+"v2":
-                selector = new RouletteSelectorImpl();
+            case ROULETTE_WHEEL_INFINITY_SUPP:
+                selector = new RouletteSelectorInfinitySupport();
                 return this;
             case TOURNAMENT:
                 return this;
