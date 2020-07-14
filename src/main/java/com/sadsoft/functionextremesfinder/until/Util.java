@@ -7,10 +7,6 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.slf4j.Logger;
 
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
 public class Util {
 
     public static int generateRandom(int min, int max) {
@@ -39,11 +35,21 @@ public class Util {
 
     public static void logPopulation(Population population, Logger log) {
         int index=0;
+        log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         for (Individual individual : population.getPopulation()) {
-            log.info("||| [Population] {} {} |||",index, individual.toString());
+            log.info("||| [Population] {} {}",index, individual.toString());
             index++;
         }
         log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    }
+
+    public static Individual getFittest(Population population) {
+        Individual result = population.getPopulation()[0];
+        for (int i=0; i<population.getPopulation().length; i++) {
+            if (population.getPopulation()[i].getFitness() > result.getFitness())
+                result = population.getPopulation()[i];
+        }
+        return result;
     }
 
     public static int getRangeLength(int range) {
