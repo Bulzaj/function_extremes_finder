@@ -1,11 +1,15 @@
 package com.sadsoft.functionextremesfinder.until;
 
+import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmPropertiesRequestDTO;
+import com.sadsoft.functionextremesfinder.model.Individual;
 import com.sadsoft.functionextremesfinder.model.Population;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.slf4j.Logger;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Util {
 
@@ -26,9 +30,22 @@ public class Util {
         return (float) expression.evaluate();
     }
 
+    public static void updatePopulation(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO) {
+        population
+                .getPopulation()
+                .stream()
+                .map(individual -> {
+                    Individual tmp = individual;
+                    tmp.setX(Util.computeXValue(individual.getGenes()));
+                    tmp.setValue(Util.computeFunctionValueInX(tmp.getX(), requestDTO.getFunctionBody()));
+                    return tmp;
+                }).collect(Collectors.toList());
+    }
+
     public static void logPopulation(Population population, Logger log) {
+        AtomicInteger index = new AtomicInteger();
         log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        population.getPopulation().forEach(individual -> log.info("||| [Population] {} |||", individual.toString()));
+        population.getPopulation().forEach(individual -> log.info("||| [Population] {} {} |||",index.getAndIncrement(), individual.toString()));
         log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
