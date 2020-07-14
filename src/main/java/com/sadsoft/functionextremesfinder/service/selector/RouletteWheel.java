@@ -24,8 +24,8 @@ public class RouletteWheel implements Selector {
     public void select(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO) {
 
         log.debug("[Roulette wheel]: Roulette wheel starts...");
-        Individual[] newPopulation = new Individual[population.getPopulation().length];
         float maxFitness = 0;
+        List<Individual> newPopulation = new ArrayList<>();
 
         for (Individual individual : population.getPopulation()) {
             if (individual.getFitness() == Float.POSITIVE_INFINITY) maxFitness = MAX_VALUE;
@@ -43,19 +43,13 @@ public class RouletteWheel implements Selector {
                 upperBand += population.getPopulation()[j].getFitness();
                 if (random > (lowerBand/maxFitness)*100 && random <= (upperBand/maxFitness)*100) {
                     log.debug("[Roulette wheel] Drawn: {} < {} <= {}, individual: {}", lowerBand, random, upperBand, j);
-                    Individual newIndividual = new Individual();
-                    newIndividual.setGenes(population.getPopulation()[j].getGenes());
-                    newPopulation[i] = newIndividual;
-//                    newIndividual = null;
+                    int[] newGenes = Arrays.copyOf(population.getPopulation()[j].getGenes(), Util.getRangeLength(requestDTO.getMaxRange()));
+                    newPopulation.add( new Individual(newGenes)) ;
                 }
                 lowerBand = upperBand;
             }
         }
-        for (int i=0; i<population.getPopulation().length; i++) {
-            log.debug("[Roulette wheel] new individual: {}", newPopulation[i]);
-        }
-        population = new Population();
-        population.setPopulation(newPopulation);
+        population.setPopulation(newPopulation.toArray(new Individual[0]));
         Util.updatePopulation(population, requestDTO);
     }
 }

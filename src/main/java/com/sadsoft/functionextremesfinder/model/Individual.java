@@ -9,6 +9,13 @@ public class Individual  {
     private float value;
     private float fitness;
 
+    public Individual() {
+    }
+
+    public Individual(int[] newGenes) {
+        this.genes = newGenes;
+    }
+
     public int[] getGenes() {
         return genes;
     }
