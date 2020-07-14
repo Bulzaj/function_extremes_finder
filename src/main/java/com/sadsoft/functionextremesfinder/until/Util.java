@@ -31,22 +31,19 @@ public class Util {
     }
 
     public static void updatePopulation(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO) {
-        population
-                .getPopulation()
-                .stream()
-                .map(individual -> {
-                    Individual tmp = individual;
-                    tmp.setX(Util.computeXValue(individual.getGenes()));
-                    tmp.setValue(Util.computeFunctionValueInX(tmp.getX(), requestDTO.getFunctionBody()));
-                    return tmp;
-                }).collect(Collectors.toList());
+        for (Individual individual : population.getPopulation()) {
+            individual.setX(computeXValue(individual.getGenes()));
+            individual.setValue(computeFunctionValueInX(individual.getX(), requestDTO.getFunctionBody()));
+        }
     }
 
     public static void logPopulation(Population population, Logger log) {
-        AtomicInteger index = new AtomicInteger();
-        log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        population.getPopulation().forEach(individual -> log.info("||| [Population] {} {} |||",index.getAndIncrement(), individual.toString()));
-        log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        int index=0;
+        for (Individual individual : population.getPopulation()) {
+            log.info("||| [Population] {} {} |||",index, individual.toString());
+            index++;
+        }
+        log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
     public static int getRangeLength(int range) {
