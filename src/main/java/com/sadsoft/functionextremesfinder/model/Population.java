@@ -1,32 +1,28 @@
 package com.sadsoft.functionextremesfinder.model;
 
-import java.util.List;
-
 public class Population {
 
-    private List<Individual> population;
+    private Individual[] population;
 
-    public Population(List<Individual> population) {
+    public Population(Individual[] population) {
         this.population = population;
     }
 
-    public Population() {
+    public Population() { }
 
-    }
-
-    public List<Individual> getPopulation() {
+    public Individual[] getPopulation() {
         return population;
     }
 
-    public void setPopulation(List<Individual> population) {
+    public void setPopulation(Individual[] population) {
         this.population = population;
     }
 
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Individual individual: population) {
-            result += individual.toString() + "\n";
+            result.append(individual.toString()).append("\n");
         }
-        return result;
+        return result.toString();
     }
 }
