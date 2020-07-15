@@ -66,8 +66,8 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
             if (fittest == prevFittest) withoutChanges++;
             else withoutChanges = 0;
 
+            this.fittest = Util.getFittest(population);
             this.prevFittest = fittest;
-            this.fittest =Util.getFittest(population);
 
             i++;
             if (i == requestDTO.getMaxWithoutChanges()) stopReason=StopReason.MAX_WITHOUT_CHANGES;
