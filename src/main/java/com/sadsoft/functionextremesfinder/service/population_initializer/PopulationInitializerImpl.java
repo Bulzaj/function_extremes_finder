@@ -8,8 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Component
 public class PopulationInitializerImpl implements PopulationInitializer {
@@ -17,26 +16,26 @@ public class PopulationInitializerImpl implements PopulationInitializer {
     private static final Logger log = LoggerFactory.getLogger(PopulationInitializerImpl.class);
 
     @Override
-    public Population initialize(GeneticAlgorithmPropertiesRequestDTO requestDTO) {
-        log.debug("Population initializer starts...");
-        int genesLength = Util.getRangeLength(requestDTO.getMaxRange());
-        List<Individual> individuals = new ArrayList<>();
-        for (int i=0; i<requestDTO.getPopulationSize(); i++) {
-            int[] genes = new int[genesLength];
-            for (int j=0; j<genesLength; j++) {
-                genes[j] = Util.generateRandom(0,1);
+    public void initialize(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO) {
+
+        log.debug("[Initializer] Initializer starts...");
+
+        int geneLength = Util.getRangeLength(requestDTO.getMaxRange());
+        int populationSize = requestDTO.getPopulationSize();
+        Individual[] newPopulation = new Individual[populationSize];
+        int[] newGenes;
+
+        for (int i=0; i<populationSize; i++) {
+            newGenes = new int[geneLength];
+            newPopulation[i] = new Individual();
+            for (int j=0; j<geneLength; j++) {
+                newGenes[j] = Util.generateRandom(0, 1);
             }
-            int x = Util.computeXValue(genes);
-            Individual individual = new Individual();
-            individual.setGenes(genes);
-            individual.setX(x);
-            individual.setFitness(0);
-            individual.setValue(Util.computeFunctionValueInX(x, requestDTO.getFunctionBody()));
-            individuals.add(individual);
+            newPopulation[i].setGenes(newGenes);
         }
-        if (individuals.isEmpty()) throw new IllegalStateException("Individual list is empty");
-        log.debug("Population initializer stop...");
-        return new Population(individuals);
+        population.setPopulation(newPopulation);
+        Util.updatePopulation(population, requestDTO);
+        log.debug("[Initializer] Initialize stops...");
     }
 
 

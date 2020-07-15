@@ -11,14 +11,14 @@ public class SelectorFactory {
     public SelectorFactory build(String selectorType) {
         switch (selectorType) {
             case ROULETTE_WHEEL:
-                selector = new RouletteWheelSelector();
+                selector = new RouletteWheel();
                 return this;
             case TOURNAMENT:
                 return this;
             case RANK:
                 return this;
             default:
-                selector = new RouletteWheelSelector();
+                selector = new RouletteWheel();
                 return this;
         }
     }

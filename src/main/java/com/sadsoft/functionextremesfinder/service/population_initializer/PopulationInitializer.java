@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PopulationInitializer {
 
-    Population initialize(GeneticAlgorithmPropertiesRequestDTO requestDTO);
+    void initialize(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO);
 }

@@ -1,11 +1,11 @@
 package com.sadsoft.functionextremesfinder.until;
 
+import com.sadsoft.functionextremesfinder.model.GeneticAlgorithmPropertiesRequestDTO;
+import com.sadsoft.functionextremesfinder.model.Individual;
 import com.sadsoft.functionextremesfinder.model.Population;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.slf4j.Logger;
-
-import java.util.Arrays;
 
 public class Util {
 
@@ -26,10 +26,30 @@ public class Util {
         return (float) expression.evaluate();
     }
 
+    public static void updatePopulation(Population population, GeneticAlgorithmPropertiesRequestDTO requestDTO) {
+        for (Individual individual : population.getPopulation()) {
+            individual.setX(computeXValue(individual.getGenes()));
+            individual.setValue(computeFunctionValueInX(individual.getX(), requestDTO.getFunctionBody()));
+        }
+    }
+
     public static void logPopulation(Population population, Logger log) {
-        log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        population.getPopulation().forEach(individual -> log.info("||| [Population] {} |||", individual.toString()));
-        log.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        int index=0;
+        log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        for (Individual individual : population.getPopulation()) {
+            log.info("||| [Population] {} {} {}",index, individual.toString(), individual.hashCode());
+            index++;
+        }
+        log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    }
+
+    public static Individual getFittest(Population population) {
+        Individual result = population.getPopulation()[0];
+        for (int i=0; i<population.getPopulation().length; i++) {
+            if (population.getPopulation()[i].getFitness() > result.getFitness())
+                result = population.getPopulation()[i];
+        }
+        return result;
     }
 
     public static int getRangeLength(int range) {
