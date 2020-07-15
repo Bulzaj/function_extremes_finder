@@ -42,7 +42,7 @@ public class RouletteWheel implements Selector {
             for (int j=0; j<population.getPopulation().length; j++) {
                 upperBand += population.getPopulation()[j].getFitness();
                 if (random > (lowerBand/maxFitness)*100 && random <= (upperBand/maxFitness)*100) {
-                    log.debug("[Roulette wheel] Drawn: {} < {} <= {}, individual: {}", lowerBand, random, upperBand, j);
+                    log.debug("[Roulette wheel] Drawn: {} < {} <= {}, individual = {}", (lowerBand/maxFitness)*100, random, (upperBand/maxFitness)*100, j);
                     int[] newGenes = Arrays.copyOf(population.getPopulation()[j].getGenes(), Util.getRangeLength(requestDTO.getMaxRange()));
                     newPopulation.add( new Individual(newGenes)) ;
                 }
