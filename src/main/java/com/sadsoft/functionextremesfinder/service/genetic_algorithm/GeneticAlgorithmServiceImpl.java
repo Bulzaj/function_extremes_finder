@@ -15,9 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 @Service
 public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
@@ -57,7 +54,7 @@ public class GeneticAlgorithmServiceImpl implements GeneticAlgorithmService {
         registry = new GeneticOperationsRegistryImpl(population, requestDTO);
 
         registry.addOperation("2mutation", new Mutation());
-//        registry.addOperation("1crossover", new Crossover());
+        registry.addOperation("1crossover", new Crossover());
 
         int i = 0;
         int withoutChanges = 0;
